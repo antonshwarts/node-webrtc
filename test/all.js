@@ -23,6 +23,7 @@ require('./rtcrtpreceiver');
 require('./rtcrtpsender');
 require('./rtcvideosink');
 require('./rtcvideosource');
+require('./rtcdtmfsender');
 require('./send-arraybuffer');
 require('./sessiondesc');
 

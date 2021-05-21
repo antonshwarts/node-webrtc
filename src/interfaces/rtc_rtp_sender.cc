@@ -20,6 +20,7 @@
 #include "src/interfaces/media_stream_track.h"
 #include "src/interfaces/media_stream.h"
 #include "src/interfaces/rtc_dtls_transport.h"
+#include "src/interfaces/rtc_dtmf_sender.h"
 #include "src/interfaces/rtc_peer_connection/peer_connection_factory.h"
 #include "src/node/error_factory.h"
 #include "src/node/utility.h"
@@ -53,6 +54,13 @@ RTCRtpSender::~RTCRtpSender() {
   _factory = nullptr;
 
   wrap()->Release(this);
+}
+
+Napi::Value RTCRtpSender::GetDtmfSender(const Napi::CallbackInfo& info) {
+  auto dtmf = _sender->GetDtmfSender();
+  return dtmf
+      ? RTCDTMFSender::wrap()->GetOrCreate(_factory, dtmf)->Value()
+      : info.Env().Null();
 }
 
 Napi::Value RTCRtpSender::GetTrack(const Napi::CallbackInfo& info) {
@@ -183,6 +191,7 @@ RTCRtpSender* RTCRtpSender::Create(
 
 void RTCRtpSender::Init(Napi::Env env, Napi::Object exports) {
   Napi::Function func = DefineClass(env, "RTCRtpSender", {
+    InstanceAccessor("dtmf", &RTCRtpSender::GetDtmfSender, nullptr),
     InstanceAccessor("track", &RTCRtpSender::GetTrack, nullptr),
     InstanceAccessor("transport", &RTCRtpSender::GetTransport, nullptr),
     InstanceAccessor("rtcpTransport", &RTCRtpSender::GetRtcpTransport, nullptr),

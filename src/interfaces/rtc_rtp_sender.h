@@ -48,6 +48,7 @@ class RTCRtpSender: public AsyncObjectWrap<RTCRtpSender> {
   Napi::Value GetTrack(const Napi::CallbackInfo&);
   Napi::Value GetTransport(const Napi::CallbackInfo&);
   Napi::Value GetRtcpTransport(const Napi::CallbackInfo&);
+  Napi::Value GetDtmfSender(const Napi::CallbackInfo&);
 
   static Napi::Value GetCapabilities(const Napi::CallbackInfo&);
 
